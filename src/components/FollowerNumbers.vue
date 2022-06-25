@@ -28,9 +28,6 @@
 </template>
 
 <script>
-import internal from 'stream';
-
-
 export default {
     name: 'FollowNumbers',
     props:{

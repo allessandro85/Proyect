@@ -5,7 +5,7 @@
                 NAME:
             </div>
             <div class="col-9 q-pl-md  text-bold text-h5" style="color: rgb(165, 139, 139);">
-                {{ nombre }} {{ apellido }}
+                {{ infoEmployee.nombre }} {{ infoEmployee.apellido }}
             </div>
         </div>
         <div class="row q-mb-md">
@@ -13,7 +13,7 @@
                 Profile:
             </div>
             <div class="col-6  text-bold text-h6" style="color: rgb(165, 139, 139);">
-                {{ profiles }}
+                {{ infoEmployee.profiles }}
             </div>
         </div>
         <div class="row q-mb-md">
@@ -21,7 +21,7 @@
                  Skills:
             </div>
             <div class="col-6  text-bold text-h6" style="color: rgb(165, 139, 139);">
-                {{ skills }}
+                {{ infoEmployee.skills }}
             </div>
         </div>
         <div class="row">
@@ -44,20 +44,6 @@ export default {
     props: {
         infoEmployee: Object,
         profile: Boolean
-    },
-    computed: {
-        nombre() {
-            return this.infoEmployee.nombre;
-        },
-        profiles() {
-            return this.infoEmployee.profiles;
-        },
-        skills() {
-            return this.infoEmployee.skills;
-        },
-        apellido(){
-            return this.infoEmployee.apellido;
-        }
     }
 }
 </script>

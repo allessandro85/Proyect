@@ -50,12 +50,16 @@ export default {
         }
       })
     },
-     GetAllPerson(){
-      axios.get(`https://localhost:7041/Persona/GetAll`)
+     async GetAllPerson(){
+     await axios.get(`https://localhost:7041/Persona/GetAll`)
       .then(done =>{
         if(done.data){
           this.SetPersonState(done.data);
-          this.InfoPersona = done.data[0];
+          done.data.forEach(element => {
+            if(element && element.activo == 1){
+              this.InfoPersona = element;
+            }
+          });
           this.index = 0;
         }
       })
@@ -67,11 +71,12 @@ export default {
           }  
       }
       await axios.put(`https://localhost:7041/Persona/DeletePerson?id=`+ person.id)
-      this.SendNotification("Elimino correctamente al follower", "positive");
+      this.SendNotification("Elimino correctamente al Empleado", "positive");
     },
     NextEmployee(){ 
       this.index += 1;
       this.InfoPersona = {};
+      
       this.ArrayAMostrar = this.GetPersonState();
       for (var i = 0; i < this.ArrayAMostrar.length; i++) {
         if(this.ArrayAMostrar[i].activo == 1){
@@ -84,9 +89,14 @@ export default {
           }
         }
       }
-      if(this.ArrayPersona.length == 9){
-        this.SendNotification("No hay mas Empleados", "negative");
+      
+      // if(this.InfoPersona == null || this.InfoPersona == undefined){
+      //   this.SendNotification("Usuario no activo", "negative"); 
+      // }
+      if(this.ArrayAMostrar.length == this.index){
+        this.SendNotification("No hay mas Empleados", "negative"); 
       }
+      
     },
     SendNotification(mensaje, color){
       this.$q.notify({
@@ -101,16 +111,17 @@ export default {
       this.InfoPersona = {};
       this.ArrayPersona = [];
       this.ArrayAMostrar = [];
-      this.GetAllPerson();
       this.ResetTable();
+      
     },
     async ResetTable(){
       await axios.put(`https://localhost:7041/Persona/ResetAllActive`)
       .then(done =>{
         if(done.data){
-          this.SendNotification("Todos los empleados se activaron", "positive");
+          this.SendNotification("Todos los empleados se activaron en BD", "positive");
         }
       })
+      this.GetAllPerson();
     }
   }
 }
